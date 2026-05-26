@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, X, Calendar, Clock, User, Mail, Phone, AlertCircle, CheckCircle } from 'lucide-react';
+import { ShoppingCart, X, AlertCircle, CheckCircle } from 'lucide-react';
 
 const FriendlyPawsWebsite = () => {
   const [menuOpen, setMenuOpen] = useState(false);
