@@ -29,7 +29,7 @@ const FriendlyPawsWebsite = () => {
       price: 35,
       description: 'Soft, natural tones. Small left chest logo.',
       colors: ['Sand', 'Sage Green'],
-      image: '👕'
+      emoji: '👕'
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const FriendlyPawsWebsite = () => {
       price: 52,
       description: 'Center front design. Warm, earthy colors.',
       colors: ['Sage Green', 'Terracotta'],
-      image: '🧥'
+      emoji: '🧥'
     },
     {
       id: 3,
@@ -45,7 +45,7 @@ const FriendlyPawsWebsite = () => {
       price: 65,
       description: 'Premium comfort fit. Made for animal lovers.',
       colors: ['Sand', 'Sage Green'],
-      image: '🎽'
+      emoji: '🎽'
     }
   ];
  
@@ -155,12 +155,10 @@ const FriendlyPawsWebsite = () => {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#FAF8F5', fontFamily: '"Anthropic Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: '#2D2D2D' }}>
       
-      {/* HEADER */}
       <header style={{ backgroundColor: 'white', borderBottom: '1px solid #E5DFD5', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div onClick={() => navigateTo('home')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-  <img src="https://i.imgur.com/AiPn48f.jpg" alt="Friendly Paws" style={{ height: '50px', width: 'auto' }} />
-</div>
+          <div onClick={() => navigateTo('home')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://i.imgur.com/AiPn48f.jpg" alt="Friendly Paws" style={{ height: '50px', width: 'auto' }} />
           </div>
  
           <nav style={{ display: 'flex', gap: '32px', fontSize: '14px', alignItems: 'center' }}>
@@ -219,7 +217,6 @@ const FriendlyPawsWebsite = () => {
         </div>
       </header>
  
-      {/* CART SIDEBAR */}
       {cartOpen && (
         <div style={{
           position: 'fixed',
@@ -348,10 +345,8 @@ const FriendlyPawsWebsite = () => {
         </div>
       )}
  
-      {/* MAIN CONTENT */}
       <main style={{ maxWidth: '1200px', margin: '0 auto' }}>
  
-        {/* HOME SECTION */}
         {currentSection === 'home' && (
           <>
             <section style={{
@@ -409,8 +404,8 @@ const FriendlyPawsWebsite = () => {
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: '24px'
               }}>
-                {services.map((service, idx) => (
-                  <div key={idx} style={{
+                {services.map((service) => (
+                  <div key={service.id} style={{
                     padding: '32px 24px',
                     backgroundColor: '#F5F2EB',
                     borderRadius: '12px',
@@ -429,7 +424,6 @@ const FriendlyPawsWebsite = () => {
           </>
         )}
  
-        {/* BOOKING SECTION */}
         {currentSection === 'booking' && (
           <section style={{ padding: '60px 24px', maxWidth: '900px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '48px', textAlign: 'center' }}>Book a Service</h1>
@@ -764,17 +758,9 @@ const FriendlyPawsWebsite = () => {
                 </button>
               </div>
             </form>
- 
-            <div style={{ marginTop: '48px', padding: '24px', backgroundColor: '#F5F2EB', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ marginTop: 0 }}>Secure Payment & Instant Confirmation</h3>
-              <p style={{ color: '#8B7F77', fontSize: '14px', margin: 0 }}>
-                Your booking will be instantly confirmed. You'll receive an invoice via email, and we'll send you a notification to confirm the service date.
-              </p>
-            </div>
           </section>
         )}
  
-        {/* SHOP SECTION */}
         {currentSection === 'shop' && (
           <section style={{ padding: '60px 24px' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '12px', textAlign: 'center' }}>Merchandise</h1>
@@ -801,7 +787,7 @@ const FriendlyPawsWebsite = () => {
                     justifyContent: 'center',
                     fontSize: '72px'
                   }}>
-                    {product.image}
+                    {product.emoji}
                   </div>
                   <div style={{ padding: '20px' }}>
                     <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>{product.name}</h3>
@@ -835,7 +821,6 @@ const FriendlyPawsWebsite = () => {
           </section>
         )}
  
-        {/* ABOUT SECTION */}
         {currentSection === 'about' && (
           <section style={{ padding: '60px 24px', maxWidth: '800px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '32px', textAlign: 'center' }}>About Friendly Paws</h1>
@@ -843,14 +828,13 @@ const FriendlyPawsWebsite = () => {
               <p style={{ marginBottom: '24px' }}>
                 Friendly Paws was founded on a simple belief: every pet deserves care that feels like home. Our founder, with a PhD in Biochemistry, discovered that her passion for animals could be transformed into a meaningful career providing professional pet care services.
               </p>
-              <p style={{ marginBottom: '24px' }}>
+              <p>
                 What started as a desire for independence and personal fulfillment has become a mission to provide pets and their owners with the highest standard of care. The scientific approach combined with genuine compassion creates a unique model where every interaction is thoughtful, stress-free, and filled with genuine affection.
               </p>
             </div>
           </section>
         )}
  
-        {/* CONTACT SECTION */}
         {currentSection === 'contact' && (
           <section style={{ padding: '60px 24px', maxWidth: '800px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '48px', textAlign: 'center' }}>Contact Us</h1>
@@ -864,11 +848,11 @@ const FriendlyPawsWebsite = () => {
               <div style={{ padding: '24px', backgroundColor: 'white', border: '1px solid #E5DFD5', borderRadius: '12px' }}>
                 <h3 style={{ marginTop: 0 }}>Contact Information</h3>
                 <p style={{ color: '#8B7F77' }}>
-                  <strong>Email:</strong><br/>
+                  <strong>Email:</strong><br />
                   hello@friendlypaws.ch
                 </p>
                 <p style={{ color: '#8B7F77' }}>
-                  <strong>Phone:</strong><br/>
+                  <strong>Phone:</strong><br />
                   +41 XX XXX XXXX
                 </p>
               </div>
@@ -878,7 +862,6 @@ const FriendlyPawsWebsite = () => {
  
       </main>
  
-      {/* FOOTER */}
       <footer style={{
         backgroundColor: '#F5F2EB',
         borderTop: '1px solid #E5DFD5',
@@ -889,12 +872,12 @@ const FriendlyPawsWebsite = () => {
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ marginBottom: '20px' }}>
-            <strong style={{ color: '#2D2D2D' }}>Friendly Paws</strong><br/>
-            Pet Care Services<br/>
+            <strong style={{ color: '#2D2D2D' }}>Friendly Paws</strong><br />
+            Pet Care Services<br />
             Brugg, Switzerland
           </div>
           <div style={{ marginBottom: '20px' }}>
-            📧 hello@friendlypaws.ch<br/>
+            📧 hello@friendlypaws.ch<br />
             📱 +41 XX XXX XXXX
           </div>
           <div>© 2024 Friendly Paws. All paws reserved. 🐾</div>
