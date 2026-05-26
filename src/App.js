@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ShoppingCart, X, AlertCircle, CheckCircle } from 'lucide-react';
 
 const FriendlyPawsWebsite = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [currentSection, setCurrentSection] = useState('home');
