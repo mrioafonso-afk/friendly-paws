@@ -155,10 +155,10 @@ const FriendlyPawsWebsite = () => {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#FAF8F5', fontFamily: '"Anthropic Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: '#2D2D2D' }}>
       
-      <header style={{ backgroundColor: 'white', borderBottom: '1px solid #E5DFD5', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header style={{ backgroundColor: '#F5F2EB', borderBottom: '1px solid #E5DFD5', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '15px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div onClick={() => navigateTo('home')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img src="https://i.imgur.com/AiPn48f.jpg" alt="Friendly Paws" style={{ height: '50px', width: 'auto' }} />
+            <img src="https://i.imgur.com/AiPn48f.jpg" alt="Friendly Paws" style={{ height: '100px', width: 'auto' }} />
           </div>
  
           <nav style={{ display: 'flex', gap: '32px', fontSize: '14px', alignItems: 'center' }}>
