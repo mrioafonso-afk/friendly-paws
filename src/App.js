@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingCart, X, AlertCircle, CheckCircle } from 'lucide-react';
+ 
 const FriendlyPawsWebsite = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState([]);
@@ -20,7 +21,7 @@ const FriendlyPawsWebsite = () => {
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
   const [bookingError, setBookingError] = useState('');
   const [processingPayment, setProcessingPayment] = useState(false);
-
+ 
   const products = [
     {
       id: 1,
@@ -47,7 +48,7 @@ const FriendlyPawsWebsite = () => {
       image: '🎽'
     }
   ];
-
+ 
   const services = [
     {
       id: 'dog-walking',
@@ -55,8 +56,7 @@ const FriendlyPawsWebsite = () => {
       title: 'Dog Walking',
       description: 'More than just steps — quality time in motion. Mindful walks tailored to your dog\'s personality and energy level.',
       price: 30,
-      duration: '45 mins',
-      fullDescription: 'Professional dog walking service providing mental stimulation, exercise, and social interaction for your furry friend.'
+      duration: '45 mins'
     },
     {
       id: 'pet-sitting',
@@ -64,8 +64,7 @@ const FriendlyPawsWebsite = () => {
       title: 'Pet Sitting',
       description: 'In-home care where your pets stay comfortable and loved. No stress, no kennels, just attentive care.',
       price: 25,
-      duration: 'per visit',
-      fullDescription: 'In-home pet care including feeding, exercise, playtime, and companionship while you\'re away.'
+      duration: 'per visit'
     },
     {
       id: 'cat-care',
@@ -73,11 +72,10 @@ const FriendlyPawsWebsite = () => {
       title: 'Cat Care',
       description: 'Calm, patient, respectful care for your feline friends. Your cat stays in their familiar environment.',
       price: 20,
-      duration: 'per visit',
-      fullDescription: 'Specialized cat care with gentle handling, feeding, litter maintenance, and calm interaction.'
+      duration: 'per visit'
     }
   ];
-
+ 
   const addToCart = (product) => {
     const existingItem = cart.find(item => item.id === product.id);
     if (existingItem) {
@@ -88,11 +86,11 @@ const FriendlyPawsWebsite = () => {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
-
+ 
   const removeFromCart = (productId) => {
     setCart(cart.filter(item => item.id !== productId));
   };
-
+ 
   const updateQuantity = (productId, quantity) => {
     if (quantity <= 0) {
       removeFromCart(productId);
@@ -102,9 +100,9 @@ const FriendlyPawsWebsite = () => {
       ));
     }
   };
-
+ 
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
+ 
   const handleBookingChange = (e) => {
     const { name, value, type, checked } = e.target;
     setBookingData({
@@ -112,28 +110,19 @@ const FriendlyPawsWebsite = () => {
       [name]: type === 'checkbox' ? checked : value
     });
   };
-
-  const handleBookingSubmit = async (e) => {
+ 
+  const handleBookingSubmit = (e) => {
     e.preventDefault();
     setBookingError('');
-
+ 
     if (!bookingData.service || !bookingData.date || !bookingData.time || !bookingData.customerName || !bookingData.customerEmail || !bookingData.petName || !bookingData.agreeTerms) {
       setBookingError('Please fill in all required fields');
       return;
     }
-
+ 
     setProcessingPayment(true);
-
-    try {
-      const bookingPayload = {
-        ...bookingData,
-        bookingId: `FPAWS-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        status: 'confirmed'
-      };
-
-      console.log('Booking data:', bookingPayload);
-
+ 
+    setTimeout(() => {
       setBookingSubmitted(true);
       setBookingData({
         service: '',
@@ -148,34 +137,31 @@ const FriendlyPawsWebsite = () => {
         notes: '',
         agreeTerms: false
       });
-
+      setProcessingPayment(false);
+ 
       setTimeout(() => {
         setBookingSubmitted(false);
       }, 5000);
-    } catch (error) {
-      setBookingError('Error processing booking. Please try again.');
-    } finally {
-      setProcessingPayment(false);
-    }
+    }, 1000);
   };
-
+ 
   const selectedService = services.find(s => s.id === bookingData.service);
   const bookingPrice = selectedService ? selectedService.price * parseInt(bookingData.duration || 1) : 0;
-
+ 
   const navigateTo = (section) => {
     setCurrentSection(section);
-    setMenuOpen(false);
   };
-
+ 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#FAF8F5', fontFamily: '"Anthropic Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: '#2D2D2D' }}>
       
+      {/* HEADER */}
       <header style={{ backgroundColor: 'white', borderBottom: '1px solid #E5DFD5', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div onClick={() => navigateTo('home')} style={{ cursor: 'pointer', fontWeight: 600, fontSize: '20px', color: '#6B9E7F', display: 'flex', alignItems: 'center', gap: '8px' }}>
             🐾 Friendly Paws
           </div>
-
+ 
           <nav style={{ display: 'flex', gap: '32px', fontSize: '14px', alignItems: 'center' }}>
             {['Home', 'Book Service', 'Shop', 'About', 'Contact'].map((item) => (
               <button
@@ -196,7 +182,7 @@ const FriendlyPawsWebsite = () => {
               </button>
             ))}
           </nav>
-
+ 
           <button
             onClick={() => setCartOpen(!cartOpen)}
             style={{
@@ -231,7 +217,8 @@ const FriendlyPawsWebsite = () => {
           </button>
         </div>
       </header>
-
+ 
+      {/* CART SIDEBAR */}
       {cartOpen && (
         <div style={{
           position: 'fixed',
@@ -253,7 +240,7 @@ const FriendlyPawsWebsite = () => {
               <X size={24} />
             </button>
           </div>
-
+ 
           <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
             {cart.length === 0 ? (
               <p style={{ color: '#8B7F77', textAlign: 'center', paddingTop: '40px' }}>Your cart is empty</p>
@@ -319,7 +306,7 @@ const FriendlyPawsWebsite = () => {
               ))
             )}
           </div>
-
+ 
           {cart.length > 0 && (
             <div style={{ padding: '24px', borderTop: '1px solid #E5DFD5' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '14px' }}>
@@ -359,9 +346,11 @@ const FriendlyPawsWebsite = () => {
           )}
         </div>
       )}
-
+ 
+      {/* MAIN CONTENT */}
       <main style={{ maxWidth: '1200px', margin: '0 auto' }}>
-
+ 
+        {/* HOME SECTION */}
         {currentSection === 'home' && (
           <>
             <section style={{
@@ -408,7 +397,7 @@ const FriendlyPawsWebsite = () => {
                 Shop Merchandise
               </button>
             </section>
-
+ 
             <section style={{ padding: '60px 24px' }}>
               <h2 style={{ textAlign: 'center', fontSize: '32px', fontWeight: 600, marginBottom: '12px' }}>Our Services</h2>
               <p style={{ textAlign: 'center', color: '#8B7F77', marginBottom: '48px' }}>
@@ -438,11 +427,12 @@ const FriendlyPawsWebsite = () => {
             </section>
           </>
         )}
-
+ 
+        {/* BOOKING SECTION */}
         {currentSection === 'booking' && (
           <section style={{ padding: '60px 24px', maxWidth: '900px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '48px', textAlign: 'center' }}>Book a Service</h1>
-
+ 
             {bookingSubmitted && (
               <div style={{
                 padding: '20px',
@@ -458,12 +448,12 @@ const FriendlyPawsWebsite = () => {
                 <div>
                   <h3 style={{ margin: '0 0 8px 0', color: '#6B9E7F', fontWeight: 600 }}>Booking Confirmed!</h3>
                   <p style={{ margin: 0, color: '#6B9E7F', fontSize: '14px' }}>
-                    We've sent a confirmation and invoice to your email. You'll receive a notification once we process your payment. Thank you for choosing Friendly Paws!
+                    We've received your booking. You'll receive a confirmation email soon. Thank you for choosing Friendly Paws!
                   </p>
                 </div>
               </div>
             )}
-
+ 
             {bookingError && (
               <div style={{
                 padding: '20px',
@@ -482,7 +472,7 @@ const FriendlyPawsWebsite = () => {
                 </div>
               </div>
             )}
-
+ 
             <form onSubmit={handleBookingSubmit} style={{
               backgroundColor: 'white',
               border: '1px solid #E5DFD5',
@@ -519,7 +509,7 @@ const FriendlyPawsWebsite = () => {
                   ))}
                 </select>
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Preferred Date *
@@ -541,7 +531,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Preferred Time *
@@ -563,7 +553,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Duration (hours) *
@@ -589,7 +579,7 @@ const FriendlyPawsWebsite = () => {
                   <option value="4">4 Hours</option>
                 </select>
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Your Name *
@@ -611,7 +601,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Email *
@@ -633,7 +623,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Phone *
@@ -655,7 +645,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Pet Name *
@@ -677,7 +667,7 @@ const FriendlyPawsWebsite = () => {
                   }}
                 />
               </div>
-
+ 
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Pet Type *
@@ -703,7 +693,7 @@ const FriendlyPawsWebsite = () => {
                   <option value="other">Other</option>
                 </select>
               </div>
-
+ 
               <div style={{ gridColumn: '1 / -1' }}>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
                   Special Notes or Requirements
@@ -726,7 +716,7 @@ const FriendlyPawsWebsite = () => {
                   placeholder="Tell us about your pet's personality, any special care needs, etc."
                 />
               </div>
-
+ 
               <div style={{ gridColumn: '1 / -1', backgroundColor: '#F5F2EB', padding: '16px', borderRadius: '8px', marginBottom: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span>Service Price:</span>
@@ -737,7 +727,7 @@ const FriendlyPawsWebsite = () => {
                   <span style={{ color: '#6B9E7F' }}>CHF {bookingPrice.toFixed(2)}</span>
                 </div>
               </div>
-
+ 
               <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <input
                   type="checkbox"
@@ -751,7 +741,7 @@ const FriendlyPawsWebsite = () => {
                   I agree to the terms and conditions and understand I will receive an invoice and confirmation email after booking.
                 </label>
               </div>
-
+ 
               <div style={{ gridColumn: '1 / -1' }}>
                 <button
                   type="submit"
@@ -773,16 +763,17 @@ const FriendlyPawsWebsite = () => {
                 </button>
               </div>
             </form>
-
+ 
             <div style={{ marginTop: '48px', padding: '24px', backgroundColor: '#F5F2EB', borderRadius: '12px', textAlign: 'center' }}>
               <h3 style={{ marginTop: 0 }}>Secure Payment & Instant Confirmation</h3>
               <p style={{ color: '#8B7F77', fontSize: '14px', margin: 0 }}>
-                Your booking will be instantly confirmed. You'll receive an invoice via email, and we'll send you a notification to confirm the service date. Payment is processed securely via Stripe.
+                Your booking will be instantly confirmed. You'll receive an invoice via email, and we'll send you a notification to confirm the service date.
               </p>
             </div>
           </section>
         )}
-
+ 
+        {/* SHOP SECTION */}
         {currentSection === 'shop' && (
           <section style={{ padding: '60px 24px' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '12px', textAlign: 'center' }}>Merchandise</h1>
@@ -842,7 +833,8 @@ const FriendlyPawsWebsite = () => {
             </div>
           </section>
         )}
-
+ 
+        {/* ABOUT SECTION */}
         {currentSection === 'about' && (
           <section style={{ padding: '60px 24px', maxWidth: '800px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '32px', textAlign: 'center' }}>About Friendly Paws</h1>
@@ -853,99 +845,39 @@ const FriendlyPawsWebsite = () => {
               <p style={{ marginBottom: '24px' }}>
                 What started as a desire for independence and personal fulfillment has become a mission to provide pets and their owners with the highest standard of care. The scientific approach combined with genuine compassion creates a unique model where every interaction is thoughtful, stress-free, and filled with genuine affection.
               </p>
-              <p style={{ marginBottom: '24px' }}>
-                <strong>Our Philosophy:</strong> Pets aren't just animals to care for—they're family members. That's why we treat them with the time, attention, and love they truly deserve. We believe in a relaxed approach that reduces stress for both pet and owner.
-              </p>
-              <p>
-                <strong>Our Promise:</strong> Professional excellence, genuine compassion, and a commitment to making every pet feel valued and loved.
-              </p>
             </div>
           </section>
         )}
-
+ 
+        {/* CONTACT SECTION */}
         {currentSection === 'contact' && (
           <section style={{ padding: '60px 24px', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '48px', textAlign: 'center' }}>Get In Touch</h1>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '48px',
-              marginBottom: '48px'
-            }}>
-              <div>
-                <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '12px' }}>Contact Information</h3>
-                <p style={{ color: '#8B7F77', marginBottom: '12px' }}>
+            <h1 style={{ fontSize: '36px', fontWeight: 600, marginBottom: '48px', textAlign: 'center' }}>Contact Us</h1>
+            <div style={{ display: 'grid', gap: '24px' }}>
+              <div style={{ padding: '24px', backgroundColor: 'white', border: '1px solid #E5DFD5', borderRadius: '12px' }}>
+                <h3 style={{ marginTop: 0 }}>Direct Booking</h3>
+                <p style={{ color: '#8B7F77', margin: '0 0 12px 0' }}>
+                  Use our online booking system to reserve a service, pay securely, and receive instant confirmation.
+                </p>
+              </div>
+              <div style={{ padding: '24px', backgroundColor: 'white', border: '1px solid #E5DFD5', borderRadius: '12px' }}>
+                <h3 style={{ marginTop: 0 }}>Contact Information</h3>
+                <p style={{ color: '#8B7F77' }}>
                   <strong>Email:</strong><br/>
                   hello@friendlypaws.ch
                 </p>
-                <p style={{ color: '#8B7F77', marginBottom: '12px' }}>
+                <p style={{ color: '#8B7F77' }}>
                   <strong>Phone:</strong><br/>
                   +41 XX XXX XXXX
                 </p>
-                <p style={{ color: '#8B7F77' }}>
-                  <strong>Location:</strong><br/>
-                  Brugg, Switzerland<br/>
-                  15 km radius service area
-                </p>
-              </div>
-              <div>
-                <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    style={{
-                      padding: '12px',
-                      border: '1px solid #E5DFD5',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      fontFamily: 'inherit'
-                    }}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    style={{
-                      padding: '12px',
-                      border: '1px solid #E5DFD5',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      fontFamily: 'inherit'
-                    }}
-                  />
-                  <textarea
-                    placeholder="Your Message"
-                    rows="4"
-                    style={{
-                      padding: '12px',
-                      border: '1px solid #E5DFD5',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      fontFamily: 'inherit',
-                      resize: 'none'
-                    }}
-                  />
-                  <button
-                    style={{
-                      padding: '12px',
-                      backgroundColor: '#6B9E7F',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Send Message
-                  </button>
-                </form>
               </div>
             </div>
           </section>
         )}
-
+ 
       </main>
-
+ 
+      {/* FOOTER */}
       <footer style={{
         backgroundColor: '#F5F2EB',
         borderTop: '1px solid #E5DFD5',
@@ -970,5 +902,5 @@ const FriendlyPawsWebsite = () => {
     </div>
   );
 };
-
+ 
 export default FriendlyPawsWebsite;
